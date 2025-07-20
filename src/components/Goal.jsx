@@ -38,19 +38,21 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
                 headers: {
                     "Content-Type": "application/json"
                 }
-            })
+            });
             if (!res.ok) throw new Error("Failed to delete goal");
             const afterDelete = [...goalsList].filter(goal => goal.id !== id);
-            updateGoalsList(afterDelete)
+            updateGoalsList(afterDelete);
         } catch (err) {
             console.error(err);
-            alert("Could not delete.")
+            alert("Could not delete.");
         }
-    }
+    };
 
     const daysRemaining = Math.ceil(
         (new Date(goalDeadline) - new Date()) / (1000 * 60 * 60 * 24)
     );
+
+    const progress = Math.min((savedAmount / amountValue) * 100, 100);
 
     return (
         <div className="w-full rounded-3xl border-2 border-gray-300 bg-white p-12 flex flex-col gap-7">
@@ -115,7 +117,7 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
                                 className="flex gap-1.5 items-center bg-white p-2 rounded-xl cursor-pointer hover:bg-red-300 transition-colors"
                                 onClick={deleteGoal}
                             >
-                                <Trash className="text-red-700"/>
+                                <Trash className="text-red-700" />
                             </button>
                         </div>
                     )}
@@ -152,20 +154,34 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
                     </div>
                 </div>
             ) : (
-                <div className="flex gap-24">
-                    <div>
-                        <p className="text-gray-400 font-semibold">CURRENT</p>
-                        <p className="text-2xl font-bold">Ksh. {savedAmount}</p>
+                <>
+                    <div className="flex gap-24">
+                        <div>
+                            <p className="text-gray-400 font-semibold">CURRENT</p>
+                            <p className="text-2xl font-bold">Ksh. {savedAmount}</p>
+                        </div>
+                        <div>
+                            <p className="text-gray-400 font-semibold">TARGET</p>
+                            <p className="text-2xl font-bold">Ksh. {amountValue}</p>
+                        </div>
+                        <div>
+                            <p className="text-gray-400 font-semibold">REMAINING</p>
+                            <p className="text-2xl font-bold">Ksh. {amountValue - savedAmount}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-gray-400 font-semibold">TARGET</p>
-                        <p className="text-2xl font-bold">Ksh. {amountValue}</p>
+                    <div className="w-full mt-4">
+                        <div className="flex justify-between text-sm mb-1 text-gray-600 font-medium">
+                            <span>Progress</span>
+                            <span>{progress.toFixed(0)}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 h-3 rounded-full">
+                            <div
+                                className="h-3 bg-green-500 rounded-full transition-all duration-300"
+                                style={{ width: `${progress}%` }}
+                            ></div>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-gray-400 font-semibold">REMAINING</p>
-                        <p className="text-2xl font-bold">Ksh. {amountValue - savedAmount}</p>
-                    </div>
-                </div>
+                </>
             )}
         </div>
     );
