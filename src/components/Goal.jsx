@@ -1,7 +1,7 @@
-import { Calendar, ChevronRight } from "lucide-react";
+import { Calendar, ChevronRight, Trash } from "lucide-react";
 import { useState } from "react";
 
-function Goal({ id, name, targetAmount, savedAmount, category, deadline, createdAt }) {
+function Goal({ id, name, targetAmount, savedAmount, category, deadline, createdAt, goalsList, updateGoalsList }) {
     const [isEditing, updateIsEditing] = useState(false);
     const [goalName, updateGoalName] = useState(name);
     const [amountValue, updateAmountValue] = useState(targetAmount);
@@ -30,6 +30,23 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
             alert("Could not save changes.");
         }
     };
+
+    const deleteGoal = async () => {
+        try {
+            const res = await fetch(`http://localhost:3000/goals/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            if (!res.ok) throw new Error("Failed to delete goal");
+            const afterDelete = [...goalsList].filter(goal => goal.id !== id);
+            updateGoalsList(afterDelete)
+        } catch (err) {
+            console.error(err);
+            alert("Could not delete.")
+        }
+    }
 
     const daysRemaining = Math.ceil(
         (new Date(goalDeadline) - new Date()) / (1000 * 60 * 60 * 24)
@@ -86,13 +103,21 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
                             </button>
                         </>
                     ) : (
-                        <button
-                            className="flex gap-1.5 items-center bg-gray-300 p-2 rounded-full cursor-pointer"
-                            onClick={() => updateIsEditing(true)}
-                        >
-                            <span>Edit</span>
-                            <ChevronRight color="black" size={18} />
-                        </button>
+                        <div className="flex gap-2.5">
+                            <button
+                                className="flex gap-1.5 items-center bg-gray-300 p-2 rounded-full cursor-pointer"
+                                onClick={() => updateIsEditing(true)}
+                            >
+                                <span>Edit</span>
+                                <ChevronRight color="black" size={18} />
+                            </button>
+                            <button
+                                className="flex gap-1.5 items-center bg-white p-2 rounded-xl cursor-pointer hover:bg-red-300 transition-colors"
+                                onClick={deleteGoal}
+                            >
+                                <Trash className="text-red-700"/>
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>

@@ -33,7 +33,7 @@ function App() {
         </div>
       </header>
       <div className={`p-11 pt-36 ${isNewClicked ? "h-screen overflow-hidden" : ""}`}>
-        <GoalsList goalsList={goalsList}/>
+        <GoalsList goalsList={goalsList} updateGoalsList={updateGoalsList}/>
       </div>
     </div>
   )

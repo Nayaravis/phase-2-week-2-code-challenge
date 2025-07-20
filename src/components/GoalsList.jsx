@@ -1,6 +1,6 @@
 import Goal from "./Goal.jsx"
 
-function GoalsList({ goalsList }) {
+function GoalsList({ goalsList, updateGoalsList }) {
     return (
         <div className="my-2.5 flex flex-col gap-3.5">
             <span className="text-2xl font-semibold">Active Goals</span>
@@ -16,6 +16,8 @@ function GoalsList({ goalsList }) {
                             category={goal.category}
                             deadline={goal.deadline}
                             createdAt={goal.createdAt}
+                            goalsList={goalsList}
+                            updateGoalsList={updateGoalsList}
                         />
                     )
                 })}
