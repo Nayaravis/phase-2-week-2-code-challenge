@@ -7,7 +7,8 @@ function GoalsList({ goalsList }) {
             <div className="flex flex-col gap-2.5">
                 {goalsList.map(goal => {
                     return (
-                        <Goal 
+                        <Goal
+                            key={goal.id}
                             id={goal.id} 
                             name={goal.name}
                             targetAmount={goal.targetAmount} 

@@ -16,7 +16,7 @@ function App() {
     }, [])
   return (
     <div className='w-full h-full bg-gray-50 z-40'>
-      <NewGoalDialog isClicked={isNewClicked} goalsList={goalsList} updateIsClicked={updateIsNewClicked}/>
+      <NewGoalDialog isClicked={isNewClicked} goalsList={goalsList} updateIsClicked={updateIsNewClicked} updateGoalsList={updateGoalsList}/>
       <header className='w-full md:h-24 bg-white shadow p-6 flex justify-between items-center fixed'>
         <div>
           <h1 className='font-semibold text-3xl'>Financial Goals</h1>

@@ -1,8 +1,8 @@
 import { Calendar, ChevronRight } from "lucide-react";
 
-function Goal({ id, name, targetAmount, savedAmount, category, deadline, createdAt }) {
+function Goal({ name, targetAmount, savedAmount, category, deadline, createdAt }) {
     return (
-        <div key={id} className="w-full rounded-3xl shadow bg-white p-12 flex flex-col gap-7">
+        <div className="w-full rounded-3xl border-2 border-gray-300 bg-white p-12 flex flex-col gap-7">
             <div className="flex w-full justify-between items-center">
                 <div>
                     <span className="text-xl font-semibold">{name}</span>
