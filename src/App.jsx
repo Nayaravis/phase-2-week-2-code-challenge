@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Plus } from 'lucide-react'
 import GoalsList from './components/GoalsList'
 import NewGoalDialog from './components/NewGoalDialog'
+import OverviewSection from "./components/Overview";
 import './App.css'
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         </div>
       </header>
       <div className={`p-11 pt-36 ${isNewClicked ? "h-screen overflow-hidden" : ""}`}>
+        <OverviewSection goals={goalsList}/>
         <GoalsList goalsList={goalsList} updateGoalsList={updateGoalsList}/>
       </div>
     </div>
