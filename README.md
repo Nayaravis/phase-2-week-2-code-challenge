@@ -18,7 +18,7 @@ This is a simple goals management application built with React and Vite. It allo
 
 ## Project Structure
 
-```
+``` bash
 src/
   App.jsx           # Main app component
   App.css           # App styles
@@ -36,18 +36,19 @@ eslint.config.js    # ESLint configuration
 ## Getting Started
 
 1. **Install dependencies:**
+
    ```powershell
    npm install
    ```
 
 2. **Run the development server:**
+
    ```powershell
    npm run dev
    ```
 
 3. **Open your browser:**
    Navigate to [http://localhost:5173](http://localhost:5173) to view the app.
-
 
 ## License
 
