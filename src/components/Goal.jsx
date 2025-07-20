@@ -7,6 +7,8 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
     const [amountValue, updateAmountValue] = useState(targetAmount);
     const [goalCategory, updateGoalCategory] = useState(category);
     const [goalDeadline, updateGoalDeadline] = useState(deadline);
+    const [currentSaved, updateCurrentSaved] = useState(savedAmount);  // local copy
+    const [depositAmount, setDepositAmount] = useState(""); // deposit input
 
     const saveEdit = async () => {
         try {
@@ -48,11 +50,39 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
         }
     };
 
+    const makeDeposit = async () => {
+        const depositValue = parseFloat(depositAmount);
+        if (isNaN(depositValue) || depositValue <= 0) {
+            alert("Enter a valid deposit amount");
+            return;
+        }
+
+        const newSavedAmount = currentSaved + depositValue;
+
+        try {
+            const res = await fetch(`http://localhost:3000/goals/${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ savedAmount: newSavedAmount })
+            });
+
+            if (!res.ok) throw new Error("Failed to deposit");
+
+            updateCurrentSaved(newSavedAmount); // update local UI
+            setDepositAmount(""); // reset input
+        } catch (err) {
+            console.error(err);
+            alert("Could not complete deposit.");
+        }
+    };
+
     const daysRemaining = Math.ceil(
         (new Date(goalDeadline) - new Date()) / (1000 * 60 * 60 * 24)
     );
 
-    const progress = Math.min((savedAmount / amountValue) * 100, 100);
+    const progress = Math.min((currentSaved / amountValue) * 100, 100);
 
     return (
         <div className="w-full rounded-3xl border-2 border-gray-300 bg-white p-12 flex flex-col gap-7">
@@ -123,7 +153,6 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
                     )}
                 </div>
             </div>
-
             {isEditing ? (
                 <div className="flex flex-col gap-4">
                     <div>
@@ -158,7 +187,7 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
                     <div className="flex gap-24">
                         <div>
                             <p className="text-gray-400 font-semibold">CURRENT</p>
-                            <p className="text-2xl font-bold">Ksh. {savedAmount}</p>
+                            <p className="text-2xl font-bold">Ksh. {currentSaved}</p>
                         </div>
                         <div>
                             <p className="text-gray-400 font-semibold">TARGET</p>
@@ -166,7 +195,7 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
                         </div>
                         <div>
                             <p className="text-gray-400 font-semibold">REMAINING</p>
-                            <p className="text-2xl font-bold">Ksh. {amountValue - savedAmount}</p>
+                            <p className="text-2xl font-bold">Ksh. {amountValue - currentSaved}</p>
                         </div>
                     </div>
                     <div className="w-full mt-4">
@@ -180,6 +209,24 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
                                 style={{ width: `${progress}%` }}
                             ></div>
                         </div>
+                    </div>
+                    <div className="mt-6 flex gap-4 items-end">
+                        <div className="flex flex-col flex-grow">
+                            <label className="block text-sm font-medium text-gray-700">Deposit</label>
+                            <input
+                                type="number"
+                                value={depositAmount}
+                                onChange={(e) => setDepositAmount(e.target.value)}
+                                placeholder="e.g. 1000"
+                                className="border p-2 rounded w-full"
+                            />
+                        </div>
+                        <button
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full"
+                            onClick={makeDeposit}
+                        >
+                            Add
+                        </button>
                     </div>
                 </>
             )}
