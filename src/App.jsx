@@ -9,12 +9,13 @@ function App() {
   const [isNewClicked, updateIsNewClicked] = useState(false);
   const [goalsList, updateGoalsList] = useState([]);    
     useEffect(() => {
-        fetch("http://127.0.0.1:3000/goals")
+        fetch("https://phase-2-week-2-code-challenge-backend.onrender.com/goals")
             .then(res => res.json())
             .then(goals => {
                 updateGoalsList(goals);
             })
     }, [])
+    
   return (
     <div className='w-full h-full bg-gray-50 z-40'>
       <NewGoalDialog isClicked={isNewClicked} goalsList={goalsList} updateIsClicked={updateIsNewClicked} updateGoalsList={updateGoalsList}/>

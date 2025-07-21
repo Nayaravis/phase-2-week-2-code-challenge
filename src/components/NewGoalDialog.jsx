@@ -13,9 +13,8 @@ function NewGoalDialog({ goalsList, updateGoalsList, isClicked, updateIsClicked 
         const day = new Date().getDate().toString().padStart(2, '0');
 
         const formattedDate = `${year}-${month}-${day}`;
-        if (goalName.trim() !== "" && targetAmount.trim() !== "" && category.trim() !== "" && deadline.trim() !== "") {
+        if (goalName.trim() !== "" && targetAmount !== 0 && category.trim() !== "" && deadline.trim() !== "") {
             const data = {
-                id: newGoalsList.length+1,
                 name: goalName,
                 targetAmount: targetAmount,
                 savedAmount: 0,
@@ -24,16 +23,18 @@ function NewGoalDialog({ goalsList, updateGoalsList, isClicked, updateIsClicked 
                 createdAt: formattedDate,
             };
 
-            fetch("http://127.0.0.1:3000/goals", {
+            fetch("https://phase-2-week-2-code-challenge-backend.onrender.com/goals/", {
                 method: "POST",
-                "Content-Type": "application/json",
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify(data)
             })
-             .then(res => res.json())
-             .then(newGoal => {
+            .then(res => res.json())
+            .then(newGoal => {
                 newGoalsList.push(newGoal);
                 updateGoalsList(newGoalsList);
-             })
+            });
         }
     }
 

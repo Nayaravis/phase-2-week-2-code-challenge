@@ -12,7 +12,7 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
 
     const saveEdit = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/goals/${id}`, {
+            const res = await fetch(`https://phase-2-week-2-code-challenge-backend.onrender.com/goals/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
@@ -35,7 +35,7 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
 
     const deleteGoal = async () => {
         try {
-            const res = await fetch(`http://localhost:3000/goals/${id}`, {
+            const res = await fetch(`https://phase-2-week-2-code-challenge-backend.onrender.com/goals/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
@@ -60,7 +60,7 @@ function Goal({ id, name, targetAmount, savedAmount, category, deadline, created
         const newSavedAmount = currentSaved + depositValue;
 
         try {
-            const res = await fetch(`http://localhost:3000/goals/${id}`, {
+            const res = await fetch(`https://phase-2-week-2-code-challenge-backend.onrender.com/goals/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
