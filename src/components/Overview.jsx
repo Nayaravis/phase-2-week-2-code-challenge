@@ -4,7 +4,6 @@ function OverviewSection({ goals }) {
     const now = new Date();
 
     const totalAccumulated = goals.reduce((acc, curr) => acc + curr.savedAmount, 0);
-    console.log(totalAccumulated)
 
     const totalTargetAmount = goals.reduce((acc, curr) => acc + curr.targetAmount, 0);
 
